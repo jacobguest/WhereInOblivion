@@ -1,0 +1,12 @@
+<div class="page">
+    @if (view == "panorama") {
+        <app-panorama></app-panorama>
+    }
+    @else {
+        <app-map></app-map>
+    }
+    <button (click)="toggleView()">
+        {{ view === 'panorama' ? 'Open Map to Guess' : 'Back to World View' }}
+    </button>
+</div>
+<router-outlet />
