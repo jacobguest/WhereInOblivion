@@ -1,12 +1,20 @@
+<mat-toolbar class="nav" color="primary">
+    <span class="app-title">Oblivion GeoGuesser</span>
+  </mat-toolbar>
+
 <div class="page">
     @if (view == "panorama") {
-        <app-panorama></app-panorama>
+        <app-panorama [image]="currentPanorama?.imageUrl"></app-panorama>
     }
     @else {
-        <app-map></app-map>
+        <app-map (guessMade)="onGuessMade()" [oblivionCoordinate]="currentPanorama?.oblivionCoordinate"></app-map>
     }
     <button (click)="toggleView()">
         {{ view === 'panorama' ? 'Open Map to Guess' : 'Back to World View' }}
     </button>
+
+    @if (guessHasBeenMade) {
+        <button (click)="nextRound()">Next Round</button>
+    }
 </div>
 <router-outlet />

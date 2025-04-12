@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/core';
 import { Feature } from 'ol';
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
@@ -20,12 +20,14 @@ import { LineString } from 'ol/geom';
   styleUrl: './map.component.scss'
 })
 export class MapComponent implements AfterViewInit {
-  oblivionCoordinate: Coordinate = [21245, 64071];
+  @Input() oblivionCoordinate: Coordinate = [];
+  @Output() guessMade = new EventEmitter<void>();
   lastGuessCoordinate?: Coordinate;
   centerX: number = 594.69;
   centerY: number = 495.79;
   vectorSource: VectorSource;
   map!: Map;
+
 
   constructor() { this.vectorSource = new VectorSource(); }
 
@@ -80,12 +82,12 @@ export class MapComponent implements AfterViewInit {
       window.alert("You haven't picked a point yet")
       return;
     }
-
+    console.log("obliv: "+ this.oblivionCoordinate);
     const correctCoordinate = this.convertOblivionToMapCoordinate(this.oblivionCoordinate);
     const score = this.getGuessScore(correctCoordinate, this.lastGuessCoordinate);
     console.log(score);
-    
     this.drawGuessFeedback(correctCoordinate, this.lastGuessCoordinate);
+    this.guessMade.emit();
   }
 
   getGuessScore(correctCoordinate: Coordinate, guessCoordinate: Coordinate): number {
