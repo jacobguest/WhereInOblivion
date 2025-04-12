@@ -44,4 +44,4 @@ Thumbs.db
 # Assets and Notes
 /public
 /assets
-notes.txt
+*.txt
