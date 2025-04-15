@@ -2,16 +2,13 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from '@angular/
 import { Feature } from 'ol';
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
-import { getCenter } from 'ol/extent.js';
-import ImageLayer from 'ol/layer/Image.js';
-import VectorLayer from 'ol/layer/Vector';
-import Projection from 'ol/proj/Projection.js';
-import Static from 'ol/source/ImageStatic.js';
 import VectorSource from 'ol/source/Vector';
 import { Point } from 'ol/geom';
 import { Coordinate } from 'ol/coordinate';
 import { Circle } from 'ol/geom';
 import { LineString } from 'ol/geom';
+import TileLayer from 'ol/layer/Tile';
+import ImageTile from 'ol/source/ImageTile';
 
 @Component({
   selector: 'app-map',
@@ -34,35 +31,28 @@ export class MapComponent implements AfterViewInit {
   ngAfterViewInit(): void { this.initializeMap(); }
 
   initializeMap() {
-    const extent = [0, 0, 1200, 980];
-
-    const projection = new Projection({
-      code: 'xkcd-image',
-      units: 'pixels',
-      extent: extent,
-    });
-
-    const vectorLayer = new VectorLayer({
-      source: this.vectorSource,
-    })
+    const extent = [
+      -20037508.34,
+      -20037508.34,
+       20037508.34,
+       20037508.34 
+    ];
 
     this.map = new Map({
       layers: [
-        new ImageLayer({
-          source: new Static({
-            url: 'map.jpg',
-            projection: projection,
-            imageExtent: extent,
+        new TileLayer({
+          source: new ImageTile({
+            url: 'http://localhost:8000/tiles/{z}/{x}/{y}.jpg',
+            wrapX: false,
           }),
-        }),
-        vectorLayer
-      ],
+    }),
+       ],
       target: 'map',
       view: new View({
-        projection: projection,
-        center: getCenter(extent),
-        zoom: 2,
-        maxZoom: 8,
+        center: [0,0],
+        zoom: 0,
+        maxZoom: 3,
+        extent: extent,
       }),
     });
 
