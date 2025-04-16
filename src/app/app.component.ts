@@ -17,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class AppComponent implements OnInit {
   title = 'OblivionGeoGuesser';
-  view: string = "panorama";
+  view: string = "start";
   currentRound: number = 0;
   currentPanorama: any;
   guessHasBeenMade: boolean = false;

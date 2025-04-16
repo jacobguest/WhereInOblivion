@@ -9,6 +9,8 @@ import { Circle } from 'ol/geom';
 import { LineString } from 'ol/geom';
 import TileLayer from 'ol/layer/Tile';
 import ImageTile from 'ol/source/ImageTile';
+import VectorImageLayer from 'ol/layer/VectorImage';
+import VectorLayer from 'ol/layer/Vector';
 
 @Component({
   selector: 'app-map',
@@ -18,7 +20,9 @@ import ImageTile from 'ol/source/ImageTile';
 })
 export class MapComponent implements AfterViewInit {
   @Input() oblivionCoordinate: Coordinate = [];
+  @Input() guessHasBeenMade: boolean = false;
   @Output() guessMade = new EventEmitter<void>();
+
   lastGuessCoordinate?: Coordinate;
   centerX: number = 594.69;
   centerY: number = 495.79;
@@ -37,7 +41,9 @@ export class MapComponent implements AfterViewInit {
        20037508.34,
        20037508.34 
     ];
-
+    const vectorLayer = new VectorLayer({
+      source: this.vectorSource,
+    })
     this.map = new Map({
       layers: [
         new TileLayer({
@@ -45,7 +51,7 @@ export class MapComponent implements AfterViewInit {
             url: 'http://localhost:8000/tiles/{z}/{x}/{y}.jpg',
             wrapX: false,
           }),
-    }),
+    }), vectorLayer
        ],
       target: 'map',
       view: new View({

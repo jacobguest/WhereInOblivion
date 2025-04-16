@@ -1,4 +1,6 @@
 <div id="map">
-    <button class="guess-btn" (click)="makeGuess()">Make Guess</button>
+    @if(!guessHasBeenMade) {
+        <button class="guess-btn" (click)="makeGuess()">Make Guess</button>
+    }
 </div>
 

@@ -3,17 +3,24 @@
   </mat-toolbar>
 
 <div class="page">
+    @if (view == 'start') {
+        <div class="start-screen">
+            <h1>Close shut the jaws of oblivion</h1>
+            <button (click)="switchToPanoramaView()">Start Game</button>
+        </div>
+    }
+
     @if (view == "panorama") {
         <app-panorama [image]="currentPanorama?.imageUrl"></app-panorama>
+        <button (click)="toggleView()">Open Map to Guess</button>
     }
-    @else {
-        <app-map (guessMade)="onGuessMade()" [oblivionCoordinate]="currentPanorama?.oblivionCoordinate"></app-map>
-    }
-    <button (click)="toggleView()">
-        {{ view === 'panorama' ? 'Open Map to Guess' : 'Back to World View' }}
-    </button>
 
-    @if (guessHasBeenMade) {
+    @if (view == "map") {
+        <app-map (guessMade)="onGuessMade()" [guessHasBeenMade]="guessHasBeenMade" [oblivionCoordinate]="currentPanorama?.oblivionCoordinate"></app-map>
+        <button (click)="toggleView()">Back to World View</button>
+    }
+        
+    @if (guessHasBeenMade && view !== 'start') {
         <button (click)="nextRound()">Next Round</button>
     }
 </div>
