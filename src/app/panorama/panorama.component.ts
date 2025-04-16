@@ -13,7 +13,8 @@ export class PanoramaComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     pannellum.viewer('panorama', {
       "type": "equirectangular",
-      "panorama": this.image
+      "panorama": this.image,
+      "autoLoad": true
     });
   }
 }
