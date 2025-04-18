@@ -5,6 +5,8 @@ import { PanoramaComponent } from './panorama/panorama.component';
 import { MapComponent } from "./map/map.component";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { Coordinate } from 'ol/coordinate';
+import { Feature } from 'ol';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +23,9 @@ export class AppComponent implements OnInit {
   currentRound: number = 0;
   currentPanorama: any;
   guessHasBeenSubmitted: boolean = false;
+  lastGuessCoordinate?: Coordinate;
+  lastCorrectCoordinateLineFeature?: Feature;
+  lastCorrectCoordinateCircleFeature?: Feature;
 
   panoramas = [
     { id: 1, imageUrl: 'panorama.jpg', oblivionCoordinate: [21245, 64071] },
@@ -41,8 +46,23 @@ export class AppComponent implements OnInit {
     this.guessHasBeenSubmitted = true;
   }
 
+  onGuessMade(newCoordinate: Coordinate) {
+    this.lastGuessCoordinate = newCoordinate;
+  }
+
+  onLineFeedbackDraw(line: Feature) {
+    this.lastCorrectCoordinateLineFeature = line;
+  }
+
+  onCircleFeedbackDraw(circle: Feature) {
+    this.lastCorrectCoordinateCircleFeature = circle;
+  }
+
   nextRound(): void {
     this.guessHasBeenSubmitted = false;
+    this.lastGuessCoordinate = undefined;
+    this.lastCorrectCoordinateLineFeature = undefined;
+    this.lastCorrectCoordinateCircleFeature = undefined;
 
     if (this.currentRound < this.panoramas.length - 1) {
       this.currentRound++;

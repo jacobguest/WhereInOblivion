@@ -16,7 +16,17 @@
     }
 
     @if (view == "map") {
-        <app-map (guessSubmitted)="onGuessSubmitted()" [guessHasBeenSubmitted]="guessHasBeenSubmitted" [oblivionCoordinate]="currentPanorama?.oblivionCoordinate"></app-map>
+        <app-map 
+            (guessSubmitted)="onGuessSubmitted()"
+            (guessMade)="onGuessMade($event)"
+            (lineFeedbackDrawn)="onLineFeedbackDraw($event)"
+            (circleFeedbackDrawn)="onCircleFeedbackDraw($event)"
+            [guessHasBeenSubmitted]="guessHasBeenSubmitted"
+            [oblivionCoordinate]="currentPanorama?.oblivionCoordinate"
+            [lastGuessCoordinate]="lastGuessCoordinate"
+            [lastCorrectCoordinateLineFeature]="lastCorrectCoordinateLineFeature"
+            [lastCorrectCoordinateCircleFeature]="lastCorrectCoordinateCircleFeature"
+        ></app-map>
         <button (click)="toggleView()">Back to World View</button>
     }
         

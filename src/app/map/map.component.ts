@@ -5,12 +5,11 @@ import View from 'ol/View.js';
 import VectorSource from 'ol/source/Vector';
 import { Point } from 'ol/geom';
 import { Coordinate } from 'ol/coordinate';
-import { Circle } from 'ol/geom';
 import { LineString } from 'ol/geom';
 import TileLayer from 'ol/layer/Tile';
 import ImageTile from 'ol/source/ImageTile';
-import VectorImageLayer from 'ol/layer/VectorImage';
 import VectorLayer from 'ol/layer/Vector';
+
 
 @Component({
   selector: 'app-map',
@@ -23,7 +22,15 @@ export class MapComponent implements AfterViewInit {
   @Input() guessHasBeenSubmitted: boolean = false;
   @Output() guessSubmitted = new EventEmitter<void>();
 
-  lastGuessCoordinate?: Coordinate;
+  @Input() lastGuessCoordinate?: Coordinate;
+  @Output() guessMade = new EventEmitter<Coordinate>();
+
+  @Output() lineFeedbackDrawn = new EventEmitter<Feature>();
+  @Output() circleFeedbackDrawn = new EventEmitter<Feature>();
+  @Input() lastCorrectCoordinateLineFeature?: Feature;
+  @Input() lastCorrectCoordinateCircleFeature?: Feature;
+
+  
   centerX: number = 594.69;
   centerY: number = 495.79;
   vectorSource: VectorSource;
@@ -41,9 +48,25 @@ export class MapComponent implements AfterViewInit {
        20037508.34,
        20037508.34 
     ];
+
+    if (this.lastGuessCoordinate) {
+      this.vectorSource.addFeature(new Feature({
+        geometry: new Point(this.lastGuessCoordinate),
+      }));
+    }
+
+    if (this.lastCorrectCoordinateLineFeature) {
+      this.vectorSource.addFeature(this.lastCorrectCoordinateLineFeature);
+    }
+
+    if (this.lastCorrectCoordinateCircleFeature) {
+      this.vectorSource.addFeature(this.lastCorrectCoordinateCircleFeature);
+    }
+
     const vectorLayer = new VectorLayer({
       source: this.vectorSource,
-    })
+    });
+
     this.map = new Map({
       layers: [
         new TileLayer({
@@ -69,7 +92,7 @@ export class MapComponent implements AfterViewInit {
         geometry: new Point(event.coordinate),
       }));
     
-      this.lastGuessCoordinate = event.coordinate;
+      this.guessMade.emit(event.coordinate);
     });
   }
   
@@ -114,10 +137,14 @@ export class MapComponent implements AfterViewInit {
     });
 
     const circleFeature = new Feature({
-      geometry: new Circle(correctCoordinate, 10),
+      geometry: new Point(correctCoordinate),
     });
+
+
+    this.lineFeedbackDrawn.emit(lineFeature);
+    this.circleFeedbackDrawn.emit(circleFeature);
   
-    this.vectorSource.addFeature(lineFeature);
     this.vectorSource.addFeature(circleFeature);
+    this.vectorSource.addFeature(lineFeature);
   }
 }
