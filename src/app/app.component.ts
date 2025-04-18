@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   view: string = "start";
   currentRound: number = 0;
   currentPanorama: any;
-  guessHasBeenMade: boolean = false;
+  guessHasBeenSubmitted: boolean = false;
 
   panoramas = [
     { id: 1, imageUrl: 'panorama.jpg', oblivionCoordinate: [21245, 64071] },
@@ -37,12 +37,12 @@ export class AppComponent implements OnInit {
     console.log(this.currentPanorama);
   }
 
-  onGuessMade() {
-    this.guessHasBeenMade = true;
+  onGuessSubmitted() {
+    this.guessHasBeenSubmitted = true;
   }
 
   nextRound(): void {
-    this.guessHasBeenMade = false;
+    this.guessHasBeenSubmitted = false;
 
     if (this.currentRound < this.panoramas.length - 1) {
       this.currentRound++;

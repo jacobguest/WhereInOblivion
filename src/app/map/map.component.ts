@@ -20,8 +20,8 @@ import VectorLayer from 'ol/layer/Vector';
 })
 export class MapComponent implements AfterViewInit {
   @Input() oblivionCoordinate: Coordinate = [];
-  @Input() guessHasBeenMade: boolean = false;
-  @Output() guessMade = new EventEmitter<void>();
+  @Input() guessHasBeenSubmitted: boolean = false;
+  @Output() guessSubmitted = new EventEmitter<void>();
 
   lastGuessCoordinate?: Coordinate;
   centerX: number = 594.69;
@@ -83,7 +83,7 @@ export class MapComponent implements AfterViewInit {
     const score = this.getGuessScore(correctCoordinate, this.lastGuessCoordinate);
     console.log(score);
     this.drawGuessFeedback(correctCoordinate, this.lastGuessCoordinate);
-    this.guessMade.emit();
+    this.guessSubmitted.emit();
   }
 
   getGuessScore(correctCoordinate: Coordinate, guessCoordinate: Coordinate): number {

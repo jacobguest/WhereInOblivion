@@ -16,11 +16,11 @@
     }
 
     @if (view == "map") {
-        <app-map (guessMade)="onGuessMade()" [guessHasBeenMade]="guessHasBeenMade" [oblivionCoordinate]="currentPanorama?.oblivionCoordinate"></app-map>
+        <app-map (guessSubmitted)="onGuessSubmitted()" [guessHasBeenSubmitted]="guessHasBeenSubmitted" [oblivionCoordinate]="currentPanorama?.oblivionCoordinate"></app-map>
         <button (click)="toggleView()">Back to World View</button>
     }
         
-    @if (guessHasBeenMade && view !== 'start') {
+    @if (guessHasBeenSubmitted && view !== 'start') {
         <button (click)="nextRound()">Next Round</button>
     }
 </div>
