@@ -3,34 +3,34 @@
   </mat-toolbar>
 
 <div class="page">
-    @if (view == 'start') {
+    @if (this.gameService.getCurrentView() == 'start') {
         <div class="start-screen">
             <h1>Close shut the jaws of oblivion</h1>
-            <button (click)="switchToPanoramaView()">Start Game</button>
+            <button (click)="this.gameService.switchToPanoramaView()">Start Game</button>
         </div>
     }
 
-    @if (view == "panorama") {
-        <app-panorama [image]="currentPanorama?.imageUrl"></app-panorama>
-        <button (click)="toggleView()">Open Map to Guess</button>
+    @if (this.gameService.getCurrentView() == "panorama") {
+        <app-panorama [image]="this.gameService.getCurrentPanorama().imageUrl"></app-panorama>
+        <button (click)="this.gameService.toggleView()">Open Map to Guess</button>
     }
 
-    @if (view == "map") {
+    @if (this.gameService.getCurrentView() == "map") {
         <app-map 
             (guessSubmitted)="onGuessSubmitted()"
             (guessMade)="onGuessMade($event)"
             (lineFeedbackDrawn)="onLineFeedbackDraw($event)"
             (circleFeedbackDrawn)="onCircleFeedbackDraw($event)"
             [guessHasBeenSubmitted]="guessHasBeenSubmitted"
-            [oblivionCoordinate]="currentPanorama?.oblivionCoordinate"
+            [oblivionCoordinate]="this.gameService.getCurrentPanorama().oblivionCoordinate"
             [lastGuessCoordinate]="lastGuessCoordinate"
             [lastCorrectCoordinateLineFeature]="lastCorrectCoordinateLineFeature"
             [lastCorrectCoordinateCircleFeature]="lastCorrectCoordinateCircleFeature"
         ></app-map>
-        <button (click)="toggleView()">Back to World View</button>
+        <button (click)="this.gameService.toggleView()">Back to World View</button>
     }
         
-    @if (guessHasBeenSubmitted && view !== 'start') {
+    @if (guessHasBeenSubmitted && this.gameService.getCurrentView() !== 'start') {
         <button (click)="nextRound()">Next Round</button>
     }
 </div>
