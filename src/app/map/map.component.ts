@@ -82,6 +82,11 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.on('click', (event) => {
+
+      if (this.gameService.getGuessHasBeenSubmitted() === true) {
+        return;
+      }
+
       this.vectorSource.clear();
 
       this.vectorSource.addFeature(new Feature({
