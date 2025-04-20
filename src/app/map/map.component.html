@@ -1,5 +1,5 @@
 <div id="map">
-    @if(!guessHasBeenSubmitted) {
+    @if(!this.gameService.getGuessHasBeenSubmitted()) {
         <button class="guess-btn" (click)="makeGuess()">Make Guess</button>
     }
 </div>

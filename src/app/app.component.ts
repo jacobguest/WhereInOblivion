@@ -18,24 +18,6 @@ import { GameService } from './services/game.service';
 })
 export class AppComponent {
   title = 'OblivionGeoGuesser';
-  guessHasBeenSubmitted: boolean = false;
 
   constructor(public gameService: GameService) {}
-
-  onGuessSubmitted() {
-    this.guessHasBeenSubmitted = true;
-  }
-
-  nextRound(): void {
-    this.guessHasBeenSubmitted = false;
-    this.gameService.setLastGuessCoordinate(undefined);
-    this.gameService.setLastLine(undefined);
-    this.gameService.setLastCircle(undefined);
-    // TODO NEXT: move some of these things into a service
-    // eventually will all be in gameservice
-    // 
-
-    this.gameService.nextRound();
-    this.gameService.switchToPanoramaView();
-  } 
 }

@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
+import { GameService } from '../services/game.service';
 declare var pannellum: any;
 
 @Component({
@@ -8,12 +9,14 @@ declare var pannellum: any;
   styleUrl: './panorama.component.scss'
 })
 export class PanoramaComponent implements AfterViewInit {
-  @Input() image: string = '';
+  constructor(public gameService: GameService) { }
 
   ngAfterViewInit(): void {
+    var panorama = this.gameService.getCurrentPanorama();
+
     pannellum.viewer('panorama', {
       "type": "equirectangular",
-      "panorama": this.image,
+      "panorama": panorama.imageUrl,
       "autoLoad": true
     });
   }

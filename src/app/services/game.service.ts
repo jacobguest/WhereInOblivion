@@ -8,10 +8,10 @@ import { Coordinate } from 'ol/coordinate';
 export class GameService {
   private currentRound: number = 0;
   private currentView: string = "start"
-  private currentPanorama: any;
   private lastGuessCoordinate?: Coordinate;
   private lastLine?: Feature;
   private lastCircle?: Feature;
+  private guessHasBeenSubmitted: boolean = false;
 
   panoramas = [
     { id: 1, imageUrl: 'panorama.jpg', oblivionCoordinate: [21245, 64071] },
@@ -27,6 +27,12 @@ export class GameService {
     } else {
       this.currentRound++;
     }
+
+    this.setGuessHasBeenSubmitted(false);
+    this.setLastGuessCoordinate(undefined);
+    this.setLastLine(undefined);
+    this.setLastCircle(undefined);
+    this.switchToPanoramaView();
   }
 
   getCurrentRound(): number {
@@ -75,5 +81,17 @@ export class GameService {
 
   setLastCircle(circleFeature: Feature | undefined): void {
     this.lastCircle = circleFeature;
+  }
+
+  setGuessHasBeenSubmitted(guessHasBeenSubmitted: boolean): void {
+    this.guessHasBeenSubmitted = guessHasBeenSubmitted;
+  }
+
+  getGuessHasBeenSubmitted(): boolean {
+    return this.guessHasBeenSubmitted;
+  }
+
+  getOblivionCoordinate(): Coordinate {
+    return this.getCurrentPanorama().oblivionCoordinate;
   }
 }

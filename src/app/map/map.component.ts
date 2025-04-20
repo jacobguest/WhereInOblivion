@@ -18,20 +18,18 @@ import { GameService } from '../services/game.service';
   styleUrl: './map.component.scss'
 })
 export class MapComponent implements AfterViewInit {
-  @Input() oblivionCoordinate: Coordinate = [];
-  @Input() guessHasBeenSubmitted: boolean = false;
-  @Output() guessSubmitted = new EventEmitter<void>();
-
   centerX: number = 594.69;
   centerY: number = 495.79;
   vectorSource: VectorSource;
   map!: Map;
 
-  constructor(private gameService: GameService) {
+  constructor(public gameService: GameService) {
     this.vectorSource = new VectorSource();
   }
 
-  ngAfterViewInit(): void { this.initializeMap(); }
+  ngAfterViewInit(): void {
+    this.initializeMap();
+  }
 
   initializeMap() {
     const extent = [
@@ -99,12 +97,10 @@ export class MapComponent implements AfterViewInit {
       window.alert("You haven't picked a point yet")
       return;
     }
-    console.log("obliv: "+ this.oblivionCoordinate);
-    const correctCoordinate = this.convertOblivionToMapCoordinate(this.oblivionCoordinate);
+    const correctCoordinate = this.convertOblivionToMapCoordinate(this.gameService.getOblivionCoordinate());
     const score = this.getGuessScore(correctCoordinate, this.gameService.getLastGuessCoordinate());
-    console.log(score);
     this.drawGuessFeedback(correctCoordinate, this.gameService.getLastGuessCoordinate());
-    this.guessSubmitted.emit();
+    this.gameService.setGuessHasBeenSubmitted(true);
   }
 
   getGuessScore(correctCoordinate: Coordinate, guessCoordinate: Coordinate | undefined): number {
