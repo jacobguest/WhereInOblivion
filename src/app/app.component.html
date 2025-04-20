@@ -18,14 +18,8 @@
     @if (this.gameService.getCurrentView() == "map") {
         <app-map 
             (guessSubmitted)="onGuessSubmitted()"
-            (guessMade)="onGuessMade($event)"
-            (lineFeedbackDrawn)="onLineFeedbackDraw($event)"
-            (circleFeedbackDrawn)="onCircleFeedbackDraw($event)"
             [guessHasBeenSubmitted]="guessHasBeenSubmitted"
             [oblivionCoordinate]="this.gameService.getCurrentPanorama().oblivionCoordinate"
-            [lastGuessCoordinate]="lastGuessCoordinate"
-            [lastCorrectCoordinateLineFeature]="lastCorrectCoordinateLineFeature"
-            [lastCorrectCoordinateCircleFeature]="lastCorrectCoordinateCircleFeature"
         ></app-map>
         <button (click)="this.gameService.toggleView()">Back to World View</button>
     }

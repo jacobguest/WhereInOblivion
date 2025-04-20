@@ -9,7 +9,7 @@ import { LineString } from 'ol/geom';
 import TileLayer from 'ol/layer/Tile';
 import ImageTile from 'ol/source/ImageTile';
 import VectorLayer from 'ol/layer/Vector';
-
+import { GameService } from '../services/game.service';
 
 @Component({
   selector: 'app-map',
@@ -22,22 +22,14 @@ export class MapComponent implements AfterViewInit {
   @Input() guessHasBeenSubmitted: boolean = false;
   @Output() guessSubmitted = new EventEmitter<void>();
 
-  @Input() lastGuessCoordinate?: Coordinate;
-  @Output() guessMade = new EventEmitter<Coordinate>();
-
-  @Output() lineFeedbackDrawn = new EventEmitter<Feature>();
-  @Output() circleFeedbackDrawn = new EventEmitter<Feature>();
-  @Input() lastCorrectCoordinateLineFeature?: Feature;
-  @Input() lastCorrectCoordinateCircleFeature?: Feature;
-
-  
   centerX: number = 594.69;
   centerY: number = 495.79;
   vectorSource: VectorSource;
   map!: Map;
 
-
-  constructor() { this.vectorSource = new VectorSource(); }
+  constructor(private gameService: GameService) {
+    this.vectorSource = new VectorSource();
+  }
 
   ngAfterViewInit(): void { this.initializeMap(); }
 
@@ -49,18 +41,24 @@ export class MapComponent implements AfterViewInit {
        20037508.34 
     ];
 
-    if (this.lastGuessCoordinate) {
+    var lastGuessCoordinate = this.gameService.getLastGuessCoordinate()
+
+    if (lastGuessCoordinate != undefined) {      
       this.vectorSource.addFeature(new Feature({
-        geometry: new Point(this.lastGuessCoordinate),
+        geometry: new Point(lastGuessCoordinate),
       }));
     }
 
-    if (this.lastCorrectCoordinateLineFeature) {
-      this.vectorSource.addFeature(this.lastCorrectCoordinateLineFeature);
+    var lastLine = this.gameService.getLastLine();
+
+    if (lastLine !== undefined) {
+      this.vectorSource.addFeature(lastLine);
     }
 
-    if (this.lastCorrectCoordinateCircleFeature) {
-      this.vectorSource.addFeature(this.lastCorrectCoordinateCircleFeature);
+    var lastCircle = this.gameService.getLastCircle();
+
+    if (lastCircle !== undefined) {
+      this.vectorSource.addFeature(lastCircle);
     }
 
     const vectorLayer = new VectorLayer({
@@ -92,26 +90,30 @@ export class MapComponent implements AfterViewInit {
         geometry: new Point(event.coordinate),
       }));
     
-      this.guessMade.emit(event.coordinate);
+      this.gameService.setLastGuessCoordinate(event.coordinate);
     });
   }
   
   makeGuess() {
-    if (this.lastGuessCoordinate == null) {
+    if (this.gameService.getLastGuessCoordinate() == undefined) {
       window.alert("You haven't picked a point yet")
       return;
     }
     console.log("obliv: "+ this.oblivionCoordinate);
     const correctCoordinate = this.convertOblivionToMapCoordinate(this.oblivionCoordinate);
-    const score = this.getGuessScore(correctCoordinate, this.lastGuessCoordinate);
+    const score = this.getGuessScore(correctCoordinate, this.gameService.getLastGuessCoordinate());
     console.log(score);
-    this.drawGuessFeedback(correctCoordinate, this.lastGuessCoordinate);
+    this.drawGuessFeedback(correctCoordinate, this.gameService.getLastGuessCoordinate());
     this.guessSubmitted.emit();
   }
 
-  getGuessScore(correctCoordinate: Coordinate, guessCoordinate: Coordinate): number {
+  getGuessScore(correctCoordinate: Coordinate, guessCoordinate: Coordinate | undefined): number {
     const winDistance = 10;
     const maxScore = 1000;
+
+    if (guessCoordinate == undefined) {
+      return -1;
+    }
 
     const distance = Math.sqrt(
       Math.pow(guessCoordinate[0] - correctCoordinate[0], 2) + Math.pow(guessCoordinate[1] - correctCoordinate[1], 2)
@@ -131,7 +133,11 @@ export class MapComponent implements AfterViewInit {
     return [mapCoordinateX, mapCoordinateY];
   }
 
-  drawGuessFeedback(correctCoordinate: Coordinate, guessCoordinate: Coordinate): void {
+  drawGuessFeedback(correctCoordinate: Coordinate, guessCoordinate: Coordinate | undefined): void {
+    if (guessCoordinate == undefined) {
+      return;
+    }
+
     const lineFeature = new Feature({
       geometry: new LineString([correctCoordinate, guessCoordinate]),
     });
@@ -140,9 +146,8 @@ export class MapComponent implements AfterViewInit {
       geometry: new Point(correctCoordinate),
     });
 
-
-    this.lineFeedbackDrawn.emit(lineFeature);
-    this.circleFeedbackDrawn.emit(circleFeature);
+    this.gameService.setLastLine(lineFeature);
+    this.gameService.setLastCircle(circleFeature);
   
     this.vectorSource.addFeature(circleFeature);
     this.vectorSource.addFeature(lineFeature);

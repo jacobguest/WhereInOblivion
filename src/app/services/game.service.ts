@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Feature } from 'ol';
+import { Coordinate } from 'ol/coordinate';
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +9,9 @@ export class GameService {
   private currentRound: number = 0;
   private currentView: string = "start"
   private currentPanorama: any;
+  private lastGuessCoordinate?: Coordinate;
+  private lastLine?: Feature;
+  private lastCircle?: Feature;
 
   panoramas = [
     { id: 1, imageUrl: 'panorama.jpg', oblivionCoordinate: [21245, 64071] },
@@ -46,5 +51,29 @@ export class GameService {
 
   switchToPanoramaView(): void {
     this.currentView = "panorama";
+  }
+
+  setLastGuessCoordinate(coordinate: Coordinate | undefined): void {
+    this.lastGuessCoordinate = coordinate;
+  }
+
+  getLastGuessCoordinate(): Coordinate | undefined {
+    return this.lastGuessCoordinate;
+  }
+
+  getLastLine(): Feature | undefined {
+    return this.lastLine;
+  }
+
+  setLastLine(lineFeature: Feature | undefined): void {
+    this.lastLine = lineFeature;
+  }
+
+  getLastCircle(): Feature | undefined {
+    return this.lastCircle;
+  }
+
+  setLastCircle(circleFeature: Feature | undefined): void {
+    this.lastCircle = circleFeature;
   }
 }
