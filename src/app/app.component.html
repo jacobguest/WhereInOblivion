@@ -5,7 +5,6 @@
 <div class="page">
     @if (this.gameService.getCurrentView() == 'start') {
         <div class="start-screen">
-            <h1>Close shut the jaws of oblivion</h1>
             <button (click)="this.gameService.switchToPanoramaView()">Start Game</button>
         </div>
     }

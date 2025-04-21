@@ -15,17 +15,17 @@ export class GameService {
 
   panoramas = [
     { id: 1, imageUrl: 'panorama.jpg', oblivionCoordinate: [21245, 64071] },
-    { id: 2, imageUrl: 'panorama.jpg', oblivionCoordinate: [-21245, 64071] },
-    { id: 3, imageUrl: 'panorama.jpg', oblivionCoordinate: [21245, -64071] },
+    { id: 2, imageUrl: 'panorama2.jpg', oblivionCoordinate: [-57083, 85858] },
+    { id: 3, imageUrl: 'panorama3.jpg', oblivionCoordinate: [67447, -21193] },
   ];
 
   constructor() { }
 
   nextRound(): void {
     if (this.currentRound < 3) {
-      this.currentRound = 0;
-    } else {
       this.currentRound++;
+    } else {
+      this.currentRound = 0;
     }
 
     this.setGuessHasBeenSubmitted(false);
