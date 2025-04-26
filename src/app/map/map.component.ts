@@ -10,6 +10,7 @@ import TileLayer from 'ol/layer/Tile';
 import ImageTile from 'ol/source/ImageTile';
 import VectorLayer from 'ol/layer/Vector';
 import { GameService } from '../services/game.service';
+import { Projection } from 'ol/proj';
 
 @Component({
   selector: 'app-map',
@@ -32,12 +33,16 @@ export class MapComponent implements AfterViewInit {
   }
 
   initializeMap() {
-    const extent = [
-      -20037508.34,
-      -20037508.34,
-       20037508.34,
-       20037508.34 
-    ];
+    const extent = [-245761, -229377, 225279, 204799]
+    const centerX = extent[0] + (extent[2] - extent[0]) / 2;
+    const centerY = extent[1] + (extent[3] - extent[1]) / 2; 
+
+    const customProjection = new Projection({
+      code: 'CUSTOM',
+      units: 'pixels',
+      extent: extent,
+    });
+
 
     var lastGuessCoordinate = this.gameService.getLastGuessCoordinate()
 
@@ -69,16 +74,19 @@ export class MapComponent implements AfterViewInit {
           source: new ImageTile({
             url: 'http://localhost:8000/tiles/{z}/{x}/{y}.jpg',
             wrapX: false,
+            projection: customProjection
           }),
     }), vectorLayer
        ],
       target: 'map',
       view: new View({
-        center: [0,0],
+        projection: customProjection,
+        center: [centerX, centerY],
         zoom: 0,
         maxZoom: 3,
         extent: extent,
       }),
+      controls: []
     });
 
     this.map.on('click', (event) => {
