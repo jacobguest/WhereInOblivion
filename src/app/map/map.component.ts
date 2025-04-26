@@ -110,7 +110,8 @@ export class MapComponent implements AfterViewInit {
       window.alert("You haven't picked a point yet")
       return;
     }
-    const correctCoordinate = this.convertOblivionToMapCoordinate(this.gameService.getOblivionCoordinate());
+
+    const correctCoordinate = this.gameService.getOblivionCoordinate();
     const score = this.getGuessScore(correctCoordinate, this.gameService.getLastGuessCoordinate());
     this.drawGuessFeedback(correctCoordinate, this.gameService.getLastGuessCoordinate());
     this.gameService.setGuessHasBeenSubmitted(true);
