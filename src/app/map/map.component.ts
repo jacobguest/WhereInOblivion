@@ -13,6 +13,9 @@ import { GameService } from '../services/game.service';
 import { Projection } from 'ol/proj';
 import { ImageStatic } from 'ol/source';
 import ImageLayer from 'ol/layer/Image';
+import Style from 'ol/style/Style';
+import Icon from 'ol/style/Icon';
+import Stroke from 'ol/style/Stroke';
 
 @Component({
   selector: 'app-map',
@@ -46,10 +49,20 @@ export class MapComponent implements AfterViewInit {
 
     var lastGuessCoordinate = this.gameService.getLastGuessCoordinate()
 
-    if (lastGuessCoordinate != undefined) {      
-      this.vectorSource.addFeature(new Feature({
+    if (lastGuessCoordinate != undefined) {    
+      const pin = new Feature({
         geometry: new Point(lastGuessCoordinate),
+      });
+      
+      pin.setStyle(new Style({
+        image: new Icon({
+          src: 'finsvg.svg',
+          anchor: [0.5, 1],
+          scale: 0.3,
+        }),
       }));
+  
+      this.vectorSource.addFeature(pin);
     }
 
     var lastLine = this.gameService.getLastLine();
@@ -101,9 +114,19 @@ export class MapComponent implements AfterViewInit {
 
       this.vectorSource.clear();
 
-      this.vectorSource.addFeature(new Feature({
+      const pin = new Feature({
         geometry: new Point(event.coordinate),
+      });
+      
+      pin.setStyle(new Style({
+        image: new Icon({
+          src: 'finsvg.svg',
+          anchor: [0.5, 1],
+          scale: 0.3,
+        }),
       }));
+
+      this.vectorSource.addFeature(pin);
     
       this.gameService.setLastGuessCoordinate(event.coordinate);
     });
@@ -149,9 +172,26 @@ export class MapComponent implements AfterViewInit {
       geometry: new LineString([correctCoordinate, guessCoordinate]),
     });
 
+    lineFeature.setStyle(
+      new Style({
+        stroke: new Stroke({
+          color: 'darkred',
+          width: 1,
+        }),
+      })
+    );
+
     const circleFeature = new Feature({
       geometry: new Point(correctCoordinate),
     });
+
+    circleFeature.setStyle(new Style({
+      image: new Icon({
+        src: 'finsvg.svg',
+        anchor: [0.5, 1],
+        scale: 0.3,
+      }),
+    }));
 
     this.gameService.setLastLine(lineFeature);
     this.gameService.setLastCircle(circleFeature);
