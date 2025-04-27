@@ -21,8 +21,6 @@ import ImageLayer from 'ol/layer/Image';
   styleUrl: './map.component.scss'
 })
 export class MapComponent implements AfterViewInit {
-  centerX: number = 594.69;
-  centerY: number = 495.79;
   vectorSource: VectorSource;
   map!: Map;
 
@@ -35,7 +33,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   initializeMap() {
-    const extent = [-245761, -229377, 225279, 204799]
+    const extent = [-245761, -266241, 225279, 204799]; // -229377 in extent[1] for tile server
     const centerX = extent[0] + (extent[2] - extent[0]) / 2;
     const centerY = 50000;
 
@@ -97,7 +95,6 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.on('click', (event) => {
-
       if (this.gameService.getGuessHasBeenSubmitted() === true) {
         return;
       }
@@ -141,13 +138,6 @@ export class MapComponent implements AfterViewInit {
     }
 
     return Math.max(0, maxScore - (distance - winDistance) * 10);
-  }
-
-  convertOblivionToMapCoordinate(oblivionCoordinate: Coordinate): Coordinate {
-    let mapCoordinateX = this.centerX + oblivionCoordinate[0] / 404.87;
-    let mapCoordinateY = this.centerY + oblivionCoordinate[1] / 404.87;
-
-    return [mapCoordinateX, mapCoordinateY];
   }
 
   drawGuessFeedback(correctCoordinate: Coordinate, guessCoordinate: Coordinate | undefined): void {
