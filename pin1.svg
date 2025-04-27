@@ -1,0 +1,44 @@
+<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- Pin shadow -->
+  <ellipse cx="50" cy="135" rx="18" ry="5" fill="#00000040" filter="blur(2px)"/>
+  
+  <!-- Gradients and effects -->
+  <defs>
+    <linearGradient id="obsidianGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#353535;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#151515;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lavaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff4500;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#ff7f00;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff4500;stop-opacity:1" />
+    </linearGradient>
+    <filter id="fireGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Base pin shape -->
+  <path d="M50,15 C32,15 20,27 20,45 C20,65 35,80 50,115 C65,80 80,65 80,45 C80,27 68,15 50,15 Z" 
+        fill="url(#obsidianGradient)" stroke="#000000" stroke-width="1.5"/>
+  
+  <!-- Oblivion gate inspired design -->
+  <circle cx="50" cy="45" r="20" fill="#000000" stroke="#333333" stroke-width="1"/>
+  
+  <!-- Oblivion gate curved lines -->
+  <path d="M50,25 C40,30 35,35 35,45 C35,55 40,60 50,65 C60,60 65,55 65,45 C65,35 60,30 50,25 Z" 
+        fill="none" stroke="url(#lavaGradient)" stroke-width="2.5" filter="url(#fireGlow)"/>
+  
+  <!-- Inner flame design -->
+  <path d="M50,30 C45,35 43,40 43,45 C43,50 45,55 50,60 C55,55 57,50 57,45 C57,40 55,35 50,30 Z" 
+        fill="url(#lavaGradient)" filter="url(#fireGlow)" opacity="0.8"/>
+  
+  <!-- Center flame accent -->
+  <path d="M50,35 L52,42 L56,45 L52,48 L50,55 L48,48 L44,45 L48,42 Z" 
+        fill="#ffffff" opacity="0.6"/>
+  
+  <!-- Highlights on pin -->
+  <path d="M30,25 Q40,20 50,20 Q60,20 70,25" 
+        fill="none" stroke="#444444" stroke-width="1" stroke-opacity="0.5"/>
+</svg>

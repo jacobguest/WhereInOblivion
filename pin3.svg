@@ -1,0 +1,55 @@
+<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions -->
+  <defs>
+    <linearGradient id="daedricMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a1a1a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#2a0a0a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a0505;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="bloodGlow" cx="50%" cy="40%" r="60%" fx="50%" fy="40%">
+      <stop offset="0%" style="stop-color:#ff1a1a;stop-opacity:0.9" />
+      <stop offset="70%" style="stop-color:#cc0000;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#800000;stop-opacity:0.5" />
+    </radialGradient>
+    <filter id="redGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Daedric spire/obelisk shaft -->
+  <path d="M43,45 L40,140 L50,150 L60,140 L57,45 Z" 
+        fill="url(#daedricMetal)" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Sharp jagged edges along the shaft -->
+  <path d="M43,45 L40,55 L38,60 L41,65 L39,75 L42,85 L38,95 L41,105 L37,115 L40,125 L38,135 L40,140" 
+        fill="none" stroke="#000000" stroke-width="0.5"/>
+  <path d="M57,45 L60,55 L62,60 L59,65 L61,75 L58,85 L62,95 L59,105 L63,115 L60,125 L62,135 L60,140" 
+        fill="none" stroke="#000000" stroke-width="0.5"/>
+  
+  <!-- Blood runes/veins along the shaft -->
+  <path d="M42,60 L58,60 M44,80 L56,80 M42,100 L58,100 M44,120 L56,120" 
+        stroke="#800000" stroke-width="1" stroke-opacity="0.8"/>
+  <path d="M50,45 L50,140" 
+        stroke="#800000" stroke-width="1" stroke-dasharray="2,8" stroke-opacity="0.8"/>
+  
+  <!-- Daedric sigil stone -->
+  <ellipse cx="50" cy="30" rx="20" ry="5" fill="#000000" filter="url(#redGlow)" opacity="0.3"/>
+  <path d="M30,30 C30,20 40,12 50,12 C60,12 70,20 70,30 C70,40 60,45 50,45 C40,45 30,40 30,30 Z" 
+        fill="url(#daedricMetal)" stroke="#000000" stroke-width="1"/>
+  
+  <!-- Sigil stone blood runes -->
+  <path d="M40,20 L60,20 M36,30 L64,30 M40,40 L60,40" 
+        stroke="#800000" stroke-width="1.5"/>
+  
+  <!-- Daedric sigil glow -->
+  <path d="M50,18 C45,18 40,26 40,34 C40,42 45,44 50,44 C55,44 60,42 60,34 C60,26 55,18 50,18 Z" 
+        fill="url(#bloodGlow)" filter="url(#redGlow)" opacity="0.7"/>
+  
+  <!-- Daedric sigil symbol -->
+  <path d="M50,20 L55,25 L60,22 L56,30 L60,38 L55,35 L50,40 L45,35 L40,38 L44,30 L40,22 L45,25 Z" 
+        fill="none" stroke="#ff0000" stroke-width="1" filter="url(#redGlow)"/>
+  
+  <!-- Precision point at bottom with glow -->
+  <circle cx="50" cy="150" r="1.5" fill="#ff0000" filter="url(#redGlow)"/>
+</svg>

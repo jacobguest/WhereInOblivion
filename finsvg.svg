@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="4.08033033033033 7.140000000000001 91.29129129129129 112.5" style="max-height: 500px" width="91.29129129129129" height="112.5">
+  
+  <defs>
+    <linearGradient y2="100%" x2="100%" y1="0%" x1="0%" id="daedricMetal">
+      <stop style="stop-color:#3a1a1a;stop-opacity:1" offset="0%"/>
+      <stop style="stop-color:#2a0a0a;stop-opacity:1" offset="50%"/>
+      <stop style="stop-color:#1a0505;stop-opacity:1" offset="100%"/>
+    </linearGradient>
+    <radialGradient fy="40%" fx="50%" r="60%" cy="40%" cx="50%" id="bloodGlow">
+      <stop style="stop-color:#ff1a1a;stop-opacity:0.9" offset="0%"/>
+      <stop style="stop-color:#cc0000;stop-opacity:0.7" offset="70%"/>
+      <stop style="stop-color:#800000;stop-opacity:0.5" offset="100%"/>
+    </radialGradient>
+    <filter height="160%" width="160%" y="-30%" x="-30%" id="redGlow">
+      <feGaussianBlur result="blur" stdDeviation="2"/>
+      <feComposite operator="over" in2="blur" in="SourceGraphic"/>
+    </filter>
+  </defs>
+  
+  
+  <path stroke-width="1.5" stroke="#000000" fill="url(#daedricMetal)" d="M50,15 C35,15 20,30 20,50 C20,70 35,85 50,120 C65,85 80,70 80,50 C80,30 65,15 50,15 Z"/>
+  
+  
+  <path stroke-width="3" stroke="#2a0a0a" d="M50,120 L50,150"/>
+  <circle filter="url(#redGlow)" fill="#ff0000" r="1.5" cy="150" cx="50"/>
+  
+  
+  <path stroke-width="1.5" stroke="#800000" d="M40,40 L60,40 M35,50 L65,50 M40,60 L60,60"/>
+  
+  
+  <circle stroke-opacity="0.6" stroke-width="1" stroke="#800000" fill="none" r="20" cy="50" cx="50"/>
+  <path filter="url(#redGlow)" fill="none" stroke-width="1" stroke="#ff0000" d="M50,30 L58,38 L66,40 L58,45 L66,50 L58,55 L66,60 L58,62 L50,70 L42,62 L34,60 L42,55 L34,50 L42,45 L34,40 L42,38 Z"/>
+  
+  
+  <circle opacity="0.7" filter="url(#redGlow)" fill="url(#bloodGlow)" r="12" cy="50" cx="50"/>
+  
+  
+  <path fill="none" stroke-width="1" stroke="#800000" d="M30,35 C28,40 27,45 25,50 C27,55 28,60 30,65"/>
+  <path fill="none" stroke-width="1" stroke="#800000" d="M70,35 C72,40 73,45 75,50 C73,55 72,60 70,65"/>
+  
+  
+  <path stroke-opacity="0.8" stroke-width="1" stroke="#800000" d="M35,80 L45,80 M55,80 L65,80 M40,90 L60,90 M45,100 L55,100"/>
+</svg>
