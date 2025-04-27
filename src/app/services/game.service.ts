@@ -7,7 +7,7 @@ import { Coordinate } from 'ol/coordinate';
 })
 export class GameService {
   private currentRound: number = 0;
-  private currentView: string = "start"
+  private currentView: string = "panorama"
   private lastGuessCoordinate?: Coordinate;
   private lastLine?: Feature;
   private lastCircle?: Feature;
