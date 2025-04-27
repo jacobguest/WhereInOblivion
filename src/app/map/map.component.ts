@@ -33,7 +33,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   initializeMap() {
-    const extent = [-245761, -266241, 225279, 204799]; // -229377 in extent[1] for tile server
+    const extent = [-245761, -229377, 225279, 204799]; // -266241 in extent[1] for static image
     const centerX = extent[0] + (extent[2] - extent[0]) / 2;
     const centerY = 50000;
 
@@ -70,17 +70,17 @@ export class MapComponent implements AfterViewInit {
 
     this.map = new Map({
       layers: [
-        new ImageLayer({
-          // source: new ImageTile({
-          //   url: 'http://localhost:8000/tiles/{z}/{x}/{y}.jpg',
-          //   wrapX: false,
-          //   projection: customProjection
-          // }),
-          source: new ImageStatic({
-            url: 'map.jpg',
-            imageExtent: extent,
+        new TileLayer({
+          source: new ImageTile({
+            url: 'tiles/{z}/{x}/{y}.jpg',
+            wrapX: false,
             projection: customProjection
-          })
+          }),
+          // source: new ImageStatic({
+          //   url: 'map.jpg',
+          //   imageExtent: extent,
+          //   projection: customProjection
+          // })
     }), vectorLayer
        ],
       target: 'map',
