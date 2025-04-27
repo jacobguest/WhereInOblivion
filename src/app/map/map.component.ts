@@ -11,6 +11,8 @@ import ImageTile from 'ol/source/ImageTile';
 import VectorLayer from 'ol/layer/Vector';
 import { GameService } from '../services/game.service';
 import { Projection } from 'ol/proj';
+import { ImageStatic } from 'ol/source';
+import ImageLayer from 'ol/layer/Image';
 
 @Component({
   selector: 'app-map',
@@ -70,12 +72,17 @@ export class MapComponent implements AfterViewInit {
 
     this.map = new Map({
       layers: [
-        new TileLayer({
-          source: new ImageTile({
-            url: 'http://localhost:8000/tiles/{z}/{x}/{y}.jpg',
-            wrapX: false,
+        new ImageLayer({
+          // source: new ImageTile({
+          //   url: 'http://localhost:8000/tiles/{z}/{x}/{y}.jpg',
+          //   wrapX: false,
+          //   projection: customProjection
+          // }),
+          source: new ImageStatic({
+            url: 'map.jpg',
+            imageExtent: extent,
             projection: customProjection
-          }),
+          })
     }), vectorLayer
        ],
       target: 'map',
