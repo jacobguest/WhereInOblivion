@@ -88,7 +88,7 @@ export class MapComponent implements AfterViewInit {
         projection: customProjection,
         center: [centerX, centerY],
         zoom: 0,
-        maxZoom: 3,
+        maxZoom: 5,
         extent: extent,
       }),
       controls: []

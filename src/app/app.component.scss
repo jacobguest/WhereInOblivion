@@ -25,3 +25,21 @@
     width: 75px;
     height: auto;
 }
+
+.game-button {
+    background-color: #3E4A59;
+    color: #FFFFFF;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-family: 'Georgia', serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 10px;
+}
+
+.game-button:hover {
+    background-color: #D1A055;
+}
