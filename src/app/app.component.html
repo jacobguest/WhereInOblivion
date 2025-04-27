@@ -1,8 +1,10 @@
-<mat-toolbar class="nav" color="primary">
-    <span class="app-title">Oblivion GeoGuesser</span>
-  </mat-toolbar>
+
 
 <div class="page">
+    <div class="logo-container">
+        <img src="logo3.png" alt="Logo" class="logo">
+    </div>
+
     @if (this.gameService.getCurrentView() == 'start') {
         <div class="start-screen">
             <button (click)="this.gameService.switchToPanoramaView()">Start Game</button>
@@ -23,4 +25,5 @@
         <button (click)="this.gameService.nextRound()">Next Round</button>
     }
 </div>
+
 <router-outlet />

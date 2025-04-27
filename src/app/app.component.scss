@@ -1,12 +1,26 @@
 .page {
-    height: 90vh;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     background-color: #f8f9fa;
+    position: relative;
 }
 
 .nav {
     background-color: #f8f9fa;
+}
+
+.logo-container {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    z-index: 1000;
+    transform: translateX(-50%);
+}
+
+.logo {
+    width: 75px;
+    height: auto;
 }

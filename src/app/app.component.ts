@@ -17,7 +17,7 @@ import { GameService } from './services/game.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'OblivionGeoGuesser';
+  title = 'Where in Oblivion';
 
   constructor(public gameService: GameService) {}
 }
