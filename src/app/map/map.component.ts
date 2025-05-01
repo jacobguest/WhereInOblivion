@@ -144,18 +144,21 @@ export class MapComponent implements AfterViewInit {
   }
   
   makeGuess() {
-    if (this.gameService.getLastGuessCoordinate() == undefined) {
+    const lastGuessCoordinate = this.gameService.getLastGuessCoordinate();
+    if (lastGuessCoordinate == undefined) {
       window.alert("You haven't picked a point yet")
       return;
     }
 
     const correctCoordinate = this.gameService.getOblivionCoordinate();
-    const score = this.getGuessScore(correctCoordinate, this.gameService.getLastGuessCoordinate());
+    const score = this.getGuessScore(correctCoordinate, lastGuessCoordinate);
     
     if (score == 10000) {
       this.drawPerfectGuessFeedback(correctCoordinate);
+      this.adjustViewToPerfectGuess(correctCoordinate);
     } else {
-      this.drawNonPerfectGuessFeedback(correctCoordinate, this.gameService.getLastGuessCoordinate());
+      this.drawNonPerfectGuessFeedback(correctCoordinate, lastGuessCoordinate);
+      this.adjustViewToNonPerfectGuess(correctCoordinate, lastGuessCoordinate);
     }
 
     this.gameService.setGuessHasBeenSubmitted(true);
@@ -260,5 +263,38 @@ export class MapComponent implements AfterViewInit {
 
     this.vectorSource.addFeature(flag);
     this.vectorSource.addFeature(winningArea);
+  }
+
+  adjustViewToPerfectGuess(perfectGuessCoordinate: Coordinate): void {
+    if (!this.map) return;
+
+    const view = this.map.getView();
+
+    view.animate({
+      center: perfectGuessCoordinate,
+      zoom: 3,
+      duration: 1000
+    });
+  }
+
+  adjustViewToNonPerfectGuess(correctCoordinate: Coordinate, guessCoordinate: Coordinate): void {
+    if (!this.map) return;
+
+    const view = this.map.getView();
+    const padding = [50, 50, 50, 50];
+  
+    const minX = Math.min(correctCoordinate[0], guessCoordinate[0]);
+    const minY = Math.min(correctCoordinate[1], guessCoordinate[1]);
+    const maxX = Math.max(correctCoordinate[0], guessCoordinate[0]);
+    const maxY = Math.max(correctCoordinate[1], guessCoordinate[1]);
+  
+    const extent = [minX, minY, maxX, maxY];
+  
+    view.fit(extent, {
+      size: this.map.getSize(),
+      padding: padding,
+      duration: 1000,
+      maxZoom: 3
+    });
   }
 }
