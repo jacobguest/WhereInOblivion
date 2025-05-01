@@ -3,7 +3,7 @@ import { Feature } from 'ol';
 import Map from 'ol/Map.js';
 import View from 'ol/View.js';
 import VectorSource from 'ol/source/Vector';
-import { Point } from 'ol/geom';
+import { Circle, Point } from 'ol/geom';
 import { Coordinate } from 'ol/coordinate';
 import { LineString } from 'ol/geom';
 import TileLayer from 'ol/layer/Tile';
@@ -46,7 +46,6 @@ export class MapComponent implements AfterViewInit {
       extent: extent,
     });
 
-
     var lastGuessCoordinate = this.gameService.getLastGuessCoordinate()
 
     if (lastGuessCoordinate != undefined) {    
@@ -75,6 +74,18 @@ export class MapComponent implements AfterViewInit {
 
     if (lastCircle !== undefined) {
       this.vectorSource.addFeature(lastCircle);
+    }
+
+    var lastWinningArea = this.gameService.getLastWinningArea();
+
+    if (lastWinningArea !== undefined) {
+      this.vectorSource.addFeature(lastWinningArea);
+    }
+
+    var lastPerfectGuessFlag = this.gameService.getLastPerfectGuessFlag();
+
+    if (lastPerfectGuessFlag !== undefined) {
+      this.vectorSource.addFeature(lastPerfectGuessFlag);
     }
 
     const vectorLayer = new VectorLayer({
@@ -140,30 +151,34 @@ export class MapComponent implements AfterViewInit {
 
     const correctCoordinate = this.gameService.getOblivionCoordinate();
     const score = this.getGuessScore(correctCoordinate, this.gameService.getLastGuessCoordinate());
-    this.drawGuessFeedback(correctCoordinate, this.gameService.getLastGuessCoordinate());
+    
+    if (score == 10000) {
+      this.drawPerfectGuessFeedback(correctCoordinate);
+    } else {
+      this.drawNonPerfectGuessFeedback(correctCoordinate, this.gameService.getLastGuessCoordinate());
+    }
+
     this.gameService.setGuessHasBeenSubmitted(true);
   }
 
   getGuessScore(correctCoordinate: Coordinate, guessCoordinate: Coordinate | undefined): number {
-    const winDistance = 10;
-    const maxScore = 1000;
-
     if (guessCoordinate == undefined) {
-      return -1;
+      return 0;
     }
 
-    const distance = Math.sqrt(
-      Math.pow(guessCoordinate[0] - correctCoordinate[0], 2) + Math.pow(guessCoordinate[1] - correctCoordinate[1], 2)
-    );
+    const dx = correctCoordinate[0] - guessCoordinate[0];
+    const dy = correctCoordinate[1] - guessCoordinate[1];
+  
+    const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance <= winDistance) {
-      return maxScore
+    if (distance <= 1500) {
+      return 10000;
+    } else {
+      return 5;
     }
-
-    return Math.max(0, maxScore - (distance - winDistance) * 10);
   }
 
-  drawGuessFeedback(correctCoordinate: Coordinate, guessCoordinate: Coordinate | undefined): void {
+  drawNonPerfectGuessFeedback(correctCoordinate: Coordinate, guessCoordinate: Coordinate | undefined): void {
     if (guessCoordinate == undefined) {
       return;
     }
@@ -187,16 +202,63 @@ export class MapComponent implements AfterViewInit {
 
     circleFeature.setStyle(new Style({
       image: new Icon({
-        src: 'finsvg.svg',
-        anchor: [0.5, 1],
-        scale: 0.3,
+        src: 'red-flag-icon.svg',
+        anchor: [0.8, 1], // find the percentage of the image that the central bottom of the flag is into
+        scale: 0.4,
+      }),
+    }));
+
+    const winningArea = new Feature({
+      geometry: new Circle(correctCoordinate, 1500),
+    });
+  
+    winningArea.setStyle(new Style({
+      stroke: new Stroke({
+        color: 'red',
+        width: 2, 
       }),
     }));
 
     this.gameService.setLastLine(lineFeature);
     this.gameService.setLastCircle(circleFeature);
+    this.gameService.setLastWinningArea(winningArea)
   
     this.vectorSource.addFeature(circleFeature);
+    this.vectorSource.addFeature(winningArea);
     this.vectorSource.addFeature(lineFeature);
+  }
+
+  drawPerfectGuessFeedback(correctCoordinate: Coordinate): void {
+    const winningArea = new Feature({
+      geometry: new Circle(correctCoordinate, 1500),
+    });
+  
+    winningArea.setStyle(new Style({
+      stroke: new Stroke({
+        color: 'lightgreen',
+        width: 2,
+      }),
+    }));
+
+    const flag = new Feature({
+      geometry: new Point(correctCoordinate),
+    });
+
+    flag.setStyle(new Style({
+      image: new Icon({
+        src: 'green-flag.svg',
+        anchor: [0.95, 1],
+        scale: 0.1
+      }),
+    }));
+
+    this.gameService.setLastGuessCoordinate(undefined);
+    this.vectorSource.clear();
+    
+    this.gameService.setLastPerfectGuessFlag(flag);
+    this.gameService.setLastWinningArea(winningArea);
+
+    this.vectorSource.addFeature(flag);
+    this.vectorSource.addFeature(winningArea);
   }
 }

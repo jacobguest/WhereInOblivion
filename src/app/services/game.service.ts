@@ -11,6 +11,8 @@ export class GameService {
   private lastGuessCoordinate?: Coordinate;
   private lastLine?: Feature;
   private lastCircle?: Feature;
+  private lastWinningArea?: Feature;
+  private lastPerfectGuessFlag?: Feature;
   private guessHasBeenSubmitted: boolean = false;
 
   panoramas = [
@@ -32,6 +34,8 @@ export class GameService {
     this.setLastGuessCoordinate(undefined);
     this.setLastLine(undefined);
     this.setLastCircle(undefined);
+    this.setLastWinningArea(undefined);
+    this.setLastPerfectGuessFlag(undefined);
     this.switchToPanoramaView();
   }
 
@@ -81,6 +85,22 @@ export class GameService {
 
   setLastCircle(circleFeature: Feature | undefined): void {
     this.lastCircle = circleFeature;
+  }
+
+  getLastWinningArea(): Feature | undefined {
+    return this.lastWinningArea;
+  }
+
+  setLastWinningArea(winningAreaFeature: Feature | undefined): void {
+    this.lastWinningArea = winningAreaFeature;
+  }
+
+  getLastPerfectGuessFlag(): Feature | undefined {
+    return this.lastPerfectGuessFlag;
+  }
+
+  setLastPerfectGuessFlag(lastPerfectGuessFlag: Feature | undefined): void {
+    this.lastPerfectGuessFlag = lastPerfectGuessFlag;
   }
 
   setGuessHasBeenSubmitted(guessHasBeenSubmitted: boolean): void {
