@@ -9,21 +9,32 @@
     position: relative;
 }
 
-.nav {
-    background-color: #f8f9fa;
+.logo-container {
+    height: 10%;
+    left: 50%;
 }
 
-.logo-container {
-    position: absolute;
-    top: 5px;
-    left: 50%;
-    z-index: 1000;
-    transform: translateX(-50%);
+.game-components {
+    height: 80%;
+    width: 50%;
+}
+
+@media (max-width: 768px) {
+    .game-components {
+        width: 100%;
+    }
+}
+
+.buttons {
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 .logo {
-    width: 75px;
-    height: auto;
+    height: 100%;
 }
 
 .game-button {
@@ -37,7 +48,6 @@
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-top: 10px;
 }
 
 .game-button:hover {

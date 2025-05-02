@@ -1,11 +1,6 @@
 .panorama {
-    height: 500px;
+    height: 100%;
     width: 100%;
     border: 1px solid black;
     border-radius: 3px;
-}
-
-:host {
-    width: 100%;
-    max-width: 700px;
 }
