@@ -1,5 +1,5 @@
 .page {
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -30,7 +30,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
 }
 
 .logo {
@@ -48,6 +47,15 @@
     border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0 8px;
+}
+
+.game-button:first-child {
+    margin: 0 4px;
+}
+
+.game-button:last-child {
+    margin: 0 4px;
 }
 
 .game-button:hover {
