@@ -37,6 +37,7 @@ export class GameService {
         this.totalScore,
         this.playerName
       );
+      this.currentPage = "leaderboard";
       this.currentRound = 0;
       this.totalScore = 0;
     }
