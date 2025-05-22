@@ -152,6 +152,7 @@ export class MapComponent implements AfterViewInit {
 
     const correctCoordinate = this.gameService.getOblivionCoordinate();
     const score = this.getGuessScore(correctCoordinate, lastGuessCoordinate);
+    this.gameService.setCurrentScore(score);
     
     if (score == 10000) {
       this.drawPerfectGuessFeedback(correctCoordinate);
@@ -171,13 +172,30 @@ export class MapComponent implements AfterViewInit {
 
     const dx = correctCoordinate[0] - guessCoordinate[0];
     const dy = correctCoordinate[1] - guessCoordinate[1];
-  
+    
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance <= 1500) {
       return 10000;
-    } else {
-      return 5;
+    }
+
+    else if (distance <= 5000) {
+      return 7500;
+    }
+
+    else if (distance <= 15000) {
+      return 5000;
+    }
+
+    else if (distance <= 30000) {
+      return 2500;
+    }
+    else if (distance <= 60000) {
+      return 1000;
+    }
+
+    else {
+      return 100;
     }
   }
 
