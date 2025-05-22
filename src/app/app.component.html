@@ -5,15 +5,25 @@
             <img class="logo" src="logo3.png" alt="Logo" class="logo">
         </div>
         <div class="right-third">
-            <button (click)="this.gameService.togglePage()" class="leaderboard-button">Leaderboard</button>
+            @if (this.gameService.getCurrentPage() == "game") {
+                <button (click)="this.gameService.togglePageGameLeaderboard()" class="leaderboard-button">Leaderboard</button>
+            }
+
+            @else if (this.gameService.getCurrentPage() == "leaderboard") {
+                <button (click)="this.gameService.togglePageGameLeaderboard()" class="leaderboard-button">Back to Game</button>
+            }
         </div>
     </div>
 
-    @if (this.gameService.getCurrentPage() == "game") {
+    @if (this.gameService.getCurrentPage() == "start") {
+        <app-start class="page-component"></app-start>
+    }
+
+    @else if (this.gameService.getCurrentPage() == "game") {
         <app-game class="page-component"></app-game>
     }
 
-    @else {
+    @else if (this.gameService.getCurrentPage() == "leaderboard"){
         <app-leaderboard class="page-component">leaderboarddddd</app-leaderboard>
     }
 </div>

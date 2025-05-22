@@ -1,0 +1,3 @@
+<p>start works!</p>
+<input type="text" placeholder="Enter your name" [(ngModel)]="playerName" required/>
+<button (click)="this.startGame()" [disabled]="!playerName.trim()">Start Game</button>

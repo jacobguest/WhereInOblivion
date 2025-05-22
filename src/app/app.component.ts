@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PanoramaComponent } from './panorama/panorama.component';
-import { MapComponent } from "./map/map.component";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { GameService } from './services/game.service';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { GameComponent } from './game/game.component';
+import { StartComponent } from "./start/start.component";
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet, CommonModule,
     LeaderboardComponent, GameComponent,
-    MatToolbarModule, MatButtonModule ],
+    MatToolbarModule, MatButtonModule,
+    StartComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

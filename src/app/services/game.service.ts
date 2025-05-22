@@ -17,7 +17,7 @@ export class GameService {
   private guessHasBeenSubmitted: boolean = false;
   private currentScore: number = 0;
   private totalScore: number = 0;
-  private currentPage: string = "game";
+  private currentPage: string = "start";
   private playerName: string = "";
 
   panoramas = [
@@ -144,7 +144,12 @@ export class GameService {
     return this.currentPage;
   }
 
-  togglePage(): void {
+  startGame(playerName: string): void {
+    this.playerName = playerName;
+    this.currentPage = "game";
+  }
+
+  togglePageGameLeaderboard(): void {
     if (this.currentPage == "game") {
       this.currentPage = "leaderboard";
     } else {
