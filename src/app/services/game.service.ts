@@ -14,6 +14,8 @@ export class GameService {
   private lastWinningArea?: Feature;
   private lastPerfectGuessFlag?: Feature;
   private guessHasBeenSubmitted: boolean = false;
+  private currentScore: number = 0;
+  private totalScore: number = 0;
 
   panoramas = [
     { id: 1, imageUrl: 'panorama.jpg', oblivionCoordinate: [21245, 64071] },
@@ -28,8 +30,10 @@ export class GameService {
       this.currentRound++;
     } else {
       this.currentRound = 0;
+      this.totalScore = 0;
     }
 
+    this.currentScore = 0;
     this.setGuessHasBeenSubmitted(false);
     this.setLastGuessCoordinate(undefined);
     this.setLastLine(undefined);
@@ -113,5 +117,18 @@ export class GameService {
 
   getOblivionCoordinate(): Coordinate {
     return this.getCurrentPanorama().oblivionCoordinate;
+  }
+
+  setCurrentScore(score: number): void {
+    this.currentScore = score;
+    this.totalScore += score;
+  }
+
+  getCurrentScore(): number {
+    return this.currentScore;
+  }
+
+  getTotalScore(): number {
+    return this.totalScore;
   }
 }
