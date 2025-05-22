@@ -6,12 +6,14 @@ import { MapComponent } from "./map/map.component";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { GameService } from './services/game.service';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { GameComponent } from './game/game.component';
 
 @Component({
   selector: 'app-root',
   imports: [
     RouterOutlet, CommonModule,
-    PanoramaComponent, MapComponent,
+    LeaderboardComponent, GameComponent,
     MatToolbarModule, MatButtonModule ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

@@ -1,0 +1,36 @@
+@if (this.gameService.getCurrentView() !== 'start') {
+            <div class="score-display">
+                <div class="score-item">
+                    <span class="score-label">Round Score:</span>
+                    <span class="score-value">{{this.gameService.getCurrentScore()}}</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label">Total Score:</span>
+                    <span class="score-value">{{this.gameService.getTotalScore()}}</span>
+                </div>
+            </div>
+        }
+
+        <div class="game-components">
+            @if (this.gameService.getCurrentView() == "panorama") {
+                <app-panorama></app-panorama>
+            }
+        
+            @if (this.gameService.getCurrentView() == "map") {
+                <app-map></app-map>
+            }
+        </div>
+
+        <div class="buttons">
+            @if (this.gameService.getCurrentView() == "panorama") {
+                <button (click)="this.gameService.toggleView()" class="game-button">Open Map to Guess</button>
+            }
+        
+            @if (this.gameService.getCurrentView() == "map") {
+                <button (click)="this.gameService.toggleView()" class="game-button">Back to World View</button>
+            }
+                
+            @if (this.gameService.getGuessHasBeenSubmitted() && this.gameService.getCurrentView() !== 'start') {
+                <button (click)="this.gameService.nextRound()" class="game-button">Next Round</button>
+            }
+        </div>

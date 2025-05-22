@@ -1,0 +1,24 @@
+
+@if (leaderboardEntries.length > 0) {
+    <table>
+        <thead>
+            <tr>
+            <th>Name</th>
+            <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (entry of leaderboardEntries; track entry) {
+                <tr >
+                <td>{{ entry.name }}</td>
+                <td>{{ entry.score }}</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@else {
+    <p>No scores yet.</p>
+}
+

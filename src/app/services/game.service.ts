@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Feature } from 'ol';
 import { Coordinate } from 'ol/coordinate';
+import { LeaderboardService } from './leaderboard.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class GameService {
   private guessHasBeenSubmitted: boolean = false;
   private currentScore: number = 0;
   private totalScore: number = 0;
+  private currentPage: string = "game";
+  private playerName: string = "";
 
   panoramas = [
     { id: 1, imageUrl: 'panorama.jpg', oblivionCoordinate: [21245, 64071] },
@@ -23,12 +26,17 @@ export class GameService {
     { id: 3, imageUrl: 'panorama3.jpg', oblivionCoordinate: [67447, -21193] },
   ];
 
-  constructor() { }
+  constructor(private leaderboardService: LeaderboardService) {}
+
 
   nextRound(): void {
-    if (this.currentRound < 3) {
+    if (this.currentRound < 2) {
       this.currentRound++;
     } else {
+      this.leaderboardService.sendNewScore(
+        this.totalScore,
+        this.playerName
+      );
       this.currentRound = 0;
       this.totalScore = 0;
     }
@@ -130,5 +138,17 @@ export class GameService {
 
   getTotalScore(): number {
     return this.totalScore;
+  }
+
+  getCurrentPage(): string {
+    return this.currentPage;
+  }
+
+  togglePage(): void {
+    if (this.currentPage == "game") {
+      this.currentPage = "leaderboard";
+    } else {
+      this.currentPage = "game";
+    }
   }
 }
